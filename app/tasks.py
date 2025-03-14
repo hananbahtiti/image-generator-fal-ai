@@ -12,4 +12,4 @@ def generate_image(prompt, client_id):
   # Send result to user via WebSocket if connected
   if client_id in active_connections:
     websocket = active_connections[client_id]
-    websocket.send_text(f"Result: {result}")
+    await websocket.send_text(f"Result: {result}")
