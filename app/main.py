@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from redis import Redis
-
+from rq import Queue
+import tasks
 
 app = fastAPI()
 
