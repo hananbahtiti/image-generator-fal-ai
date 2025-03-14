@@ -24,7 +24,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str  = None):
   await websocket.accept()
   active_connections[client_id] = websocket
   try:
-    while True
+    while True:
       await websocket.receive_text()   # Keep connection open
   except WebSocketDisconnect:
     del active_connections[client_id]
