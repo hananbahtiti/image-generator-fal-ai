@@ -19,7 +19,7 @@ def generate_client_id():
   return str(uuid.uuid4())
 
 @app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: str):
+async def websocket_endpoint(websocket: WebSocket, client_id: str  = None):
   """WebSocket connection to send results to users directly."""
   await websocket.accept()
   active_connections[client_id] = websocket
