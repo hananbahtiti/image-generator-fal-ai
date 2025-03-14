@@ -6,7 +6,7 @@ import tasks
 app = fastAPI()
 
 # Connect to Redis (host "redis" because it runs inside Docker)
-redis_conn = Redis(host="redis", port=6379)
+redis_conn = Redis(host="redis", port=6379, decode_responses=True)
 
 # Create a queue for handling image requests
 queue = Queue("image_requests", connection=redis_conn)
@@ -15,7 +15,7 @@ queue = Queue("image_requests", connection=redis_conn)
 active_connections = {}
 
 @app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, websocket_endpoint: str):
+async def websocket_endpoint(websocket: WebSocket, client_id: str):
   """WebSocket connection to send results to users directly."""
   await websocket.accept()
   active_connections[client_id] = websocket
@@ -28,7 +28,7 @@ async def websocket_endpoint(websocket: WebSocket, websocket_endpoint: str):
 
 
 @app.post("/generate/")
-async def generate_image(prompt: str):
+async def generate_image(prompt: str, client_id: str):
   """Add an image generation request to the queue"""
   if not prompt:
     raise HTTPException(status_code=400, detail="Prompt cannot be empty")
