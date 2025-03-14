@@ -4,7 +4,7 @@ from rq import Queue
 import tasks
 import uuid
 
-app = fastAPI()
+app = FastAPI()
 
 # Connect to Redis (host "redis" because it runs inside Docker)
 redis_conn = Redis(host="redis", port=6379, decode_responses=True)
