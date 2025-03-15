@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Test Docker Login
-        run: docker info
+        run: sudo docker info
 
       - name: Build Docker Image
         run: |
