@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO)
 
 RESULT_TTL = 3600
 
-def generate_image(prompt, client_id):
+async def generate_image(prompt, client_id):
   """Generate an image based on the given prompt using fal-client"""
   try:
     logging.info(f"Generating image for client {client_id} ...")
