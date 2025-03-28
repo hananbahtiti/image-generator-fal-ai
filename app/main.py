@@ -5,10 +5,15 @@ import tasks
 import uuid
 import logging
 import asyncio
+from pydantic import BaseModel
 
 app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 
+class ImageRequest(BaseModel):
+  prompt: str
+  
+  
 # Connect to Redis (host "redis" because it runs inside Docker)
 redis_conn = Redis(host="redis", port=6379, decode_responses=True)
 
@@ -39,19 +44,17 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str ):
 
 
 @app.post("/generate/")
-async def generate_image(prompt: str, client_id: str = None):
+async def generate_image(request: ImageRequest):
   """Add an image generation request to the queue"""
-  if not prompt:
+  if not request.prompt:
     raise HTTPException(status_code=400, detail="Prompt cannot be empty")
 
   # Generate a unique client_id if not provided
-  if not client_id:
-    client_id = generate_client_id()
-
+  client_id = generate_client_id()
   client_result_keys.add(client_id)
     
   # Add job to queue
-  job = queue.enqueue(tasks.generate_image, prompt, client_id, retry=4)
+  job = queue.enqueue(tasks.generate_image, request.prompt, client_id, retry=4)
   logging.info(f"job queued for client {client_id}")
   return {"job_id": job.id, "client_id": client_id, "message": "Image generation job queued." }
 
