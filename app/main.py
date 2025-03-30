@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from redis import Redis
-from rq import Queue
+from rq import Queue, Retry
 import tasks
 import uuid
 import logging
