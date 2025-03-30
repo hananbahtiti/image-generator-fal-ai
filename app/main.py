@@ -54,7 +54,7 @@ async def generate_image(request: ImageRequest):
   client_result_keys.add(client_id)
     
   # Add job to queue
-  job = queue.enqueue(tasks.generate_image, request.prompt, client_id, retry=4)
+  job = queue.enqueue(tasks.generate_image, request.prompt, client_id, retry=Retry(max=4))
   logging.info(f"job queued for client {client_id}")
   return {"job_id": job.id, "client_id": client_id, "message": "Image generation job queued." }
 
