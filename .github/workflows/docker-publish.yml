@@ -34,23 +34,6 @@ jobs:
       - name: Test Docker Login
         run: sudo docker info
 
-      - name: Build  API Docker Image
+      - name: Build and push Docker images
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/api-image:tagname .
-      - name: Push API Docker Image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/api-image:tagname
-
-      - name: Build  Worker Docker Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/worker-image:tagname .
-      - name: Push worker Docker Image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/worker-image:tagname
-
-      - name: Build  Redis Docker Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/redis-image:tagname .
-      - name: Push Redis Docker Image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/redis-image:tagname
+          docker-compose up -d
