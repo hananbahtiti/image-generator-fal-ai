@@ -1,17 +1,19 @@
 from redis import Redis
-from rq import Worker, Queue, Connection
+import redis
+from rq import Worker, Queue
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
 # Connect to Redis
-redis_conn = Redis(host="redis", port=6379)
+redis_conn = redis.Redis(host="redis", port=6379)
+queue = Queue(connection=redis_conn)
 
 # Define queue name
 queue_name = "image_requests"
 
 if __name__ == "__main__":
     with Connection(redis_conn):
-        worker = Worker([queue_name])
+        worker = Worker([queue_name], connection=redis_conn)
         logging.info("Worker started, waiting for jobs...")
         worker.work()
