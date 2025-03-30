@@ -3,6 +3,8 @@ version: "3.9"
 services:
   api:
     build: .
+    context:
+    dockerfile: Dockerfile.api
     container_name: fastapi_server
     ports:
       - "8000:8000"
@@ -11,9 +13,12 @@ services:
     volumes:
       - .:/app
     restart: always
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   worker:
-    build: .
+    build: 
+    context: .
+      dockerfile: Dockerfile.worker
     container_name: worker
     command: ["python", "worker.py"]
     depends_on:
