@@ -13,7 +13,6 @@ queue = Queue(connection=redis_conn)
 queue_name = "image_requests"
 
 if __name__ == "__main__":
-    with Connection(redis_conn):
-        worker = Worker([queue_name], connection=redis_conn)
-        logging.info("Worker started, waiting for jobs...")
-        worker.work()
+    worker = Worker([queue_name], connection=redis_conn)
+    logging.info("Worker started, waiting for jobs...")
+    worker.work()
