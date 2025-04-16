@@ -2,7 +2,10 @@ from redis import Redis
 import redis
 from rq import Worker, Queue
 import logging
+import sys
 
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__), ".."))
 logging.basicConfig(level=logging.INFO)
 
 # Connect to Redis
