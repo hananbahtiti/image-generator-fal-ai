@@ -3,6 +3,7 @@ import redis
 from rq import Worker, Queue
 import logging
 import sys
+import os
 
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__), ".."))
@@ -10,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Connect to Redis
 redis_conn = redis.Redis(host="redis", port=6379)
-queue = Queue(connection=redis_conn)
+#queue = Queue(connection=redis_conn)
 
 # Define queue name
 queue_name = "image_requests"
