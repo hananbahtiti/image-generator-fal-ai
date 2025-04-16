@@ -36,6 +36,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str ):
   
   try:
     while True:
+      await websocket.send_text("ping")
+      await websockrt.sleep(15)
       await websocket.receive_text()   # Keep connection open
   except WebSocketDisconnect:
     active_connections.pop(client_id, None)
@@ -73,11 +75,13 @@ async def monitor_results():
     for client_id in list(client_result_keys):
       result = redis_conn.get(f"result: {client_id}")
       if result:
-        try:
-          await websocket.send_text(f"Result Ready: {result}")
-          logging.info(f"Result pushed to client {client_id}")
-        except Exception as e :
-          logging.error(f"Failed to send result to {client_id}: {e}")
+        websocket = active_connections.get(client_id)
+        if websocket:
+          try:
+            await websocket.send_text(f"Result Ready: {result}")
+            logging.info(f"Result pushed to client {client_id}")
+          except Exception as e :
+            logging.error(f"Failed to send result to {client_id}: {e}")
       client_result_keys.remove(client_id)
 
 
