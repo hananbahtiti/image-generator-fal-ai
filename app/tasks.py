@@ -1,6 +1,10 @@
 import fal_client
 from redis import Redis
 import logging
+import os #new
+
+# Set the API key from environment variable
+fal_client.settings.set(api_key=os.getenv("FAL_API_KEY")) #new
 
 redis_conn = Redis(host="redis", port=6379)
 logging.basicConfig(level=logging.INFO)
