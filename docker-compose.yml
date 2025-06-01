@@ -6,8 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile.api
     container_name: fastapi_server
-    environment:
-      - FAL_API_KEY=${FAL_API_KEY}
+    env_file:
+      - .env
+
     ports:
       - "8000:8000"
     depends_on:
@@ -22,8 +23,8 @@ services:
       context: .
       dockerfile: Dockerfile.worker
     container_name: worker
-    environment:
-      - FAL_API_KEY=${FAL_API_KEY}
+    env_file:
+      - .env
     depends_on:
       - redis
     volumes:
