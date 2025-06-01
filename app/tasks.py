@@ -9,7 +9,7 @@ load_dotenv() #new
 #fal_client.configure(api_key=os.getenv("FAL_API_KEY")) #new
 
 import os
-os.environ["FAL_KEY"]   ="9bb92bb6-5489-40e4-92a5-93ba0d8b8011:19a4171e20d14538b6bf55639c18d0f5"
+os.environ["FAL_API_KEY"]   ="9bb92bb6-5489-40e4-92a5-93ba0d8b8011:19a4171e20d14538b6bf55639c18d0f5"
 
 redis_conn = Redis(host="redis", port=6379)
 logging.basicConfig(level=logging.INFO)
