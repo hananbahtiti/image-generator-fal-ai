@@ -2,6 +2,7 @@ import fal_client
 from redis import Redis
 import logging
 import os #new
+import json
 from dotenv import load_dotenv #new
 load_dotenv() #new
 
@@ -26,7 +27,7 @@ async def generate_image(prompt, client_id):
     )
     result = handler.get()
 
-    redis_conn.setex(f"result: {client_id}", RESULT_TTL, result)
+    redis_conn.setex(f"result: {client_id}", RESULT_TTL,  json.dumps(result))
     logging.info(f"Image generation completed for client {client_id}")
   
   except Exception as e:
