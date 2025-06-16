@@ -24,7 +24,7 @@ async def generate_image(prompt, client_id):
       "fal-ai/flux-pro/v1.1",
       arguments={"prompt":prompt},
     )
-    result = handler.get(timeout=300)
+    result = handler.get()
 
     redis_conn.setex(f"result: {client_id}", RESULT_TTL, result)
     logging.info(f"Image generation completed for client {client_id}")
